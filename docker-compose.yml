@@ -1,0 +1,41 @@
+version: "3.3"
+services:
+    my-workspace:
+        build: .
+        volumes:
+            - C:\Users\kgarapati\.gradle:/root/.gradle
+            - C:\Kishore\code:/src
+        links:
+            - ets-postgres
+            - jss-postgres
+        tty: true
+    ets-postgres:
+        image: postgres:latest
+        environment:
+            - "POSTGRES_DB=********"
+            - "POSTGRES_USER=********"
+            - "POSTGRES_PASSWORD=********"
+            - "PGDATA=/tmp/ets"
+            - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/13/bin"
+            - "GOSU_VERSION=1.12"
+            - "LANG=en_US.utf8"
+            - "PG_MAJOR=13"
+        ports:
+            - "5432:5432"
+        volumes:
+            - C:\Kishore\docker\postgres\ets\data:/var/lib/postgresql/data
+    jss-postgres:
+        image: postgres:latest
+        environment:
+            - "POSTGRES_DB=********"
+            - "POSTGRES_USER=********"
+            - "POSTGRES_PASSWORD=********"
+            - "PGDATA=/tmp/jss"
+            - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/13/bin"
+            - "GOSU_VERSION=1.12"
+            - "LANG=en_US.utf8"
+            - "PG_MAJOR=13"
+        ports:
+            - "5433:5432"
+        volumes:
+            - C:\Kishore\docker\postgres\jss\data:/var/lib/postgresql/data
