@@ -78,9 +78,21 @@ RUN apt-get update && \
 #ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 RUN export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
+#Install Gradle
+RUN wget https://services.gradle.org/distributions/gradle-6.5.1-bin.zip -P /tmp
+RUN unzip -d /opt/gradle /tmp/gradle-*.zip
+ENV GRADLE_HOME="/opt/gradle/gradle-6.5.1"
+ENV PATH="${GRADLE_HOME}/bin:${PATH}"
+
+#Install lombok
+RUN mkdir /usr/local/share/lombok && \
+	wget https://projectlombok.org/downloads/lombok.jar -O /usr/local/share/lombok/lombok.jar
+
 RUN apt-get update && apt-get install dos2unix -y
 COPY init.vim /root/.config/nvim/init.vim
 RUN dos2unix /root/.config/nvim/init.vim
+COPY coc-settings.json /root/.config/nvim/coc-settings.json
+RUN dos2unix /root/.config/nvim/coc-settings.json
 
 RUN nvim --headless +PlugInstall +qall
 
